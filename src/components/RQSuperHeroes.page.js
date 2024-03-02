@@ -2,11 +2,13 @@ import { useQuery } from "react-query"
 import axios from "axios"
 
 const fetchSuperHeroes = () => {
-    return axios.get("http://localhost:4000/superheroes1")
+    return axios.get("http://localhost:4000/superheroes")
 }
 
 export const RQSuperHeroesPage = () => {
-    const { isLoading, data, isError, error } = useQuery("super-heroes", fetchSuperHeroes)
+    const { isLoading, data, isError, error, isFetching } = useQuery("super-heroes", fetchSuperHeroes, { cacheTime: 5000 })
+    // default cache time is 5 minutes and this 5 minutes is good 
+    console.log({ isLoading, isFetching })
 
     if (isLoading) {
         return <h1>Loading....</h1>
@@ -20,7 +22,7 @@ export const RQSuperHeroesPage = () => {
         <>
             <h2>React Query Super Heroes Page</h2>
             {data?.data.map(hero => {
-                return <div>{hero.name}</div>
+                return <div key={hero.name}>{hero.name}</div>
             })}
         </>
     )
