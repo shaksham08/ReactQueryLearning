@@ -6,7 +6,9 @@ const fetchSuperHeroes = () => {
 }
 
 export const RQSuperHeroesPage = () => {
-    const { isLoading, data, isError, error, isFetching } = useQuery("super-heroes", fetchSuperHeroes, { refetchInterval: 200, refetchIntervalInBackground: true })
+    const { isLoading, data, isError, error, isFetching, refetch } = useQuery("super-heroes", fetchSuperHeroes, {
+        enabled: false
+    })
     // default cache time is 5 minutes and this 5 minutes is good 
     // default stale time is 0s
     // default refetchOnMount = true
@@ -26,6 +28,7 @@ export const RQSuperHeroesPage = () => {
     return (
         <>
             <h2>React Query Super Heroes Page</h2>
+            <button onClick={refetch}>Fetch heroes</button>
             {data?.data.map(hero => {
                 return <div key={hero.name}>{hero.name}</div>
             })}
